@@ -1,3 +1,5 @@
+//单链表的基本操作及测试
+
 #include<stdio.h>
 #include<string.h>
 #include<stdlib.h>
@@ -67,7 +69,7 @@ LNode* FindLoc(LinkList L, int loc) { //为什么是返回结点？如果节点�
 }
 
 //增添结点到第i个（结点从第1个开始）
-// 添加/删除和查序不同，查序查的是本身，添加/删除要找的是前驱。
+//添加/删除和查序不同，查序查的是本身，添加/删除要找的是前驱。
 bool Insert(LinkList L, int loc, int val) { //注意这里的loc实际上
     if (loc < 1) {
         return false;
@@ -89,6 +91,21 @@ bool Insert(LinkList L, int loc, int val) { //注意这里的loc实际上
 
     return false;
 }
+
+//前插操作
+bool FrontInsert(LNode* n, int val) {
+    LNode* temp = (LNode*)malloc(sizeof(LNode));
+    temp->next = NULL;
+    temp->val = n->val;
+    n->val = val;
+
+    temp->next = n->next;
+    n->next = temp;
+}
+//实质是后插+值的复制。
+//注意，前插算法要解决的问题是“单链表中已知某一个节点而不知其前驱的情况下，如何在该节点前插一个节点？”
+//用不着前插算法的场景：1.双链表则不用；2.单链表允许从头开始遍历则不用。
+
 
 //删除指定位置的节点
 bool Delete(LinkList L, int loc, int* val) {
