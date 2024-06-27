@@ -8,6 +8,7 @@ typedef struct SqList {
     int length;
 } SqList;
 
+//删除唯一最小元素，函数返回被删除值，并用末元素填补，若顺序表空需报错。
 bool DeleteMin(SqList* L, int* e) {
     if (L->length == 0) {
         return false;
@@ -25,24 +26,5 @@ bool DeleteMin(SqList* L, int* e) {
     L->data[loc] = L->data[L->length - 1];
     L->length--;
 
-    return true;
-}
-
-bool DelMin(SqList* L, int* e) {
-    if (L->length == 0) {
-        return false;
-    }
-
-    *e = L->data[0];
-    int loc = 0;
-    for (int i = 1;i < L->length;i++) {
-        if (L->data[i] < *e) {
-            *e = L->data[i];
-            loc = i;
-        }
-    }
-
-    L->data[loc] = L->data[L->length - 1];
-    L->length--;
     return true;
 }

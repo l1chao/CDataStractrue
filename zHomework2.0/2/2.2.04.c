@@ -8,57 +8,57 @@ typedef struct SqList {
     int length;
 } SqList;
 
-//有序表删除关键字值在s与t(s<t)之间的数据元素。注意健壮性。
+//顺序表删除关键字值在s与t(s<t)之间的数据元素。注意健壮性。
 bool DelStoT(SqList* L, int s, int t) {
-    if (L->length == 0 || s >= t) {
+    if (L->length == 0 || s > t) {
         return false;
     }
 
-    int startLoc, endLocp;
-    // for (int i = 0;i < L->length;i++) {
-
-    //     if (L->data[i] >= s) {// 这是跳出循环的条件，可以简写到for循环判断里面。
-    //         startLoc = i;
-    //         break;
-    //     }
-    // }
-    //
-    // for (int i = startLoc;i < L->length;i++) {
-
-    //     if (L->data[i] > t) {
-    //         endLocp = i - 1;
-    //         break;
-    //     }
-    // }
-
-    for (startLoc = 0;startLoc < L->length && L->data[startLoc] < s;startLoc++);
-    for (endLocp = startLoc + 1;endLocp < L->length && L->data[endLocp] <= t;endLocp++);
-
-
-
-    for (int i = 0;i < L->length - 1 - endLocp;i++) { // endLocp+1 ~ n-1
-        L->data[startLoc + i] = L->data[endLocp + 1 + i];
-    }
-    for (;endLocp < L->length;startLoc++, endLocp++) {
-        L->data[startLoc] = L->data[endLocp];
+    int k = 0;
+    for (int i = 0;i < L->length;i++) {
+        if (L->data[i] >= s && L->data[i] <= t) {
+            k++;
+        }
+        else {
+            L->data[i - k] = L->data[i];
+        }
     }
 
-    L->length = startLoc;
     return true;
 }
 
 
 
-int main() {
-    SqList L; //在测试的时候，用值变量而不用指针变量，原因是值变量好赋值。
-    L.length = 6;
+//有序表删除[s,t]内元素。
+bool DelStoT1(SqList* L, int s, int t) {
+    if (L->length == 0 || s > t) {
+        printf("L is empty or s>t");
+        return false;
+    }
 
-    int testSqL[6] = { 2,4,6,8,10,12 };
+    int head, tail;
+    for (head = 0;head < L->length && L->data[head] < s;head++);
+    for (tail = head + 1; tail < L->length && L->data[tail] <= t;tail++);
+
+    int distance = tail - head;
+    for (int i = tail;i < L->length;i++) {
+        L->data[i - distance] = L->data[i];
+    }
+    L->length -= distance;
+
+    return true;
+}
+
+int main() {
+    SqList L;
+
+    int testSqL[11] = { 2,4,99,1,3,5,6,22,7,8,10 };//自定义1
+    L.length = sizeof(testSqL) / sizeof(testSqL[0]);
     for (int i = 0;i < L.length;i++) {
         L.data[i] = testSqL[i];
     }
 
-    if (DelStoT(&L, 10, 10)) {
+    if (DelStoT(&L, 4, 8)) {
         for (int i = 0;i < L.length;i++) {
             printf("%d ", L.data[i]);
         }

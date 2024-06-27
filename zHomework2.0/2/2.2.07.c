@@ -8,35 +8,20 @@ typedef struct SqList {
     int length;
 } SqList;
 
-//将两个有序顺序表和成为一个新的有序顺序表，并返回。
-//在C++里面，如果返回的东西比较大比较复杂如结构体，可以在参数里面返回。
-bool Combine(SqList* a, SqList* b, SqList* c) {
-    if (a->length + b->length > c->length) {
-        return false;
-    }
+//(a1,a2,a3...b1,b2,b3) ->(b1,b2,b3...a1,a2,a3)
 
-    int i, j, k;
-    for (i = 0, j = 0, k = 0;i < a->length && j < b->length;k++) {
-        if (a->data[i] < b->data[j]) {
-            c->data[k] = a->data[i];
-            i++;
-        }
-        else {
-            c->data[k] = b->data[j];
-            j++;
-        }
-    }
+bool ReversePartly(SqList* L, int m, int n) { //0~m-1 m~m+n-1
+    Reverse(L, 0, m - 1);
+    Reverse(L, m, n + m - 1);
+    Reverse(L, 0, n + m - 1);
+}
 
-    if (i == a->length) {
-        for (;j < b->length;j++, k++) {
-            c->data[k] = b->data[j];
-        }
+void Reverse(SqList* L, int head, int tail) {
+    int mid = (head + tail) / 2;
+
+    for (int i = 0;i <= mid;i++) {
+        int temp = L->data[i];
+        L->data[i] = L->data[L->length - 1 - i];
+        L->data[L->length - 1 - i] = temp;
     }
-    else {
-        for (;i < a->length;i++, k++) {
-            c->data[k] = a->data[i];
-        }
-    }
-    c->length = k;
-    return true;
 }

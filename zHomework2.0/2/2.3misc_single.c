@@ -10,6 +10,14 @@ typedef struct LNode {
     struct LNode* next;
 }LNode, * LinkList;
 
+//链表初始化。指针的指针。
+bool InitLink(LinkList* L) {
+    (*L) = (LNode*)malloc(sizeof(LNode));
+    (*L)->val = 9527;
+    (*L)->next = NULL;
+    return true;
+}
+
 //循环输入数值，头插法建立链表。
 LinkList List_HeadInsert() {
     LNode* L = (LinkList)malloc(sizeof(LNode));
@@ -20,8 +28,9 @@ LinkList List_HeadInsert() {
     for (int i = 0;i < arrlen;i++) {
         LNode* p = (LNode*)malloc(sizeof(LNode));
         p->val = arr[i];
+
         p->next = L->next;
-        L->next = p;
+        L->next = p;//后面一个前面一个
     }
 
     return L;
@@ -41,36 +50,31 @@ LinkList List_TailInsert() {
         newNode->next = NULL;
 
         p->next = newNode;
-        p = p->next;
+        p = p->next;//后面一个+转移指针一个
     }
     return L;
 }
 
 //查值。返回第一个x的节点。
-LNode* FindValue(LinkList L, int x) { //链表遍历。
-    LNode* p = L->next;
-
-    for (;p != NULL && p->val != x;p = p->next) {}
+LNode* FindValue(LinkList L, int x) {
+    LNode* p = L;
+    for (;p != NULL && p->val != x;p = p->next) {}//希望得到状态1：p->val == x;希望在状态2时结束
 
     return p;
 }
 
-//查序，返回对应结点
-//链表的查询i方法：以L为0L.next为1，设置一个整数记录0,1等，使得整数与指针同时变换，这样就能够通过检测整数来检测指针了。
-LNode* FindLoc(LinkList L, int loc) { //为什么是返回结点？如果节点里面数据很多，确实返回节点是正确的。
-    if (loc < 1)return NULL;
-
-    LNode* p = L;
+//查序（注意函数返回值是什么：返回对应结点）
+LNode* FindLoc(LinkList L, int loc) {
     int locp = 0;
+    LNode* p = L;
 
     for (;p != NULL && locp < loc;p = p->next, locp++) {}
 
     return p;
 }
 
-//增添结点到第i个（结点从第1个开始）
-//添加/删除和查序不同，查序查的是本身，添加/删除要找的是前驱。
-bool Insert(LinkList L, int loc, int val) { //注意这里的loc实际上
+//增添结点到第i个（结点序数从第1个开始）
+bool Insert(LinkList L, int loc, int val) {
     if (loc < 1) {
         return false;
     }
@@ -78,18 +82,15 @@ bool Insert(LinkList L, int loc, int val) { //注意这里的loc实际上
     int locp = 0;
     LNode* p = L;
 
-    for (;p->next != NULL && locp < loc - 1;p = p->next, locp++) {}//这里是要找待删除元素的前驱。退出的时候是locp == loc - 1
+    for (;p != NULL && locp < loc - 1;p = p->next, locp++) {}
 
-    if (p->next != NULL) {
-        LNode* newNode = (LNode*)malloc(sizeof(LNode));
-        newNode->val = val;
-        newNode->next = p->next;
-        p->next = newNode;
+    if (p == NULL) return false;
 
-        return true;
-    }
-
-    return false;
+    LNode* new = (LNode*)malloc(sizeof(LNode));
+    new->val = val;
+    new->next = NULL;
+    p->next = new;
+    return true;
 }
 
 //前插操作
@@ -107,46 +108,39 @@ bool FrontInsert(LNode* n, int val) {
 //用不着前插算法的场景：1.双链表则不用；2.单链表允许从头开始遍历则不用。
 
 
-//删除指定位置的节点
-bool Delete(LinkList L, int loc, int* val) {
-    if (loc < 1) {
-        return false;
-    }
-    LNode* p = L;
+//删除指定位置的节点（有时候可能会让返回被删除节点）
+bool Del(LinkList L, int loc) {
+    if (loc < 1) return false;
+
     int locp = 0;
-
-    // for (;p->next != NULL && locp < loc - 1;p = p->next, locp++) {}
-
-    // if (p->next == NULL) {
-    //     return false;
-    // }
-
-    for (;locp < loc - 1;p = p->next, locp++) {
-        if (p->next == NULL) {
-            return false;
-        }
+    LNode* p = L;
+    for (; locp < loc - 1;p = p->next, locp++) {
+        if (p->next == NULL) return false;
     }
 
     LNode* temp = p->next;
-    *val = temp->val;
     p->next = temp->next;
     free(temp);
-
     return true;
 }
 
-//求表长
+//求表长（有头结点）
 int ListLen(LinkList L) {
-    int locp = 0;
+    int loc;
     LNode* p = L;
-    for (;p->next != NULL;p = p->next, locp++) {}
 
-    return locp;
+    for (;p->next != NULL;p = p->next, loc++) {}
+    return loc;
 }
 
 //测试
 int main() {
-    LNode* L = List_TailInsert();//空指针作为函数参数传递的时候，2,9,3,7,4,5,4,3,1
+    LNode* L;
+    InitLink(&L);
+    printf("%d", L->val);
+
+
+    // L = List_TailInsert();//空指针作为函数参数传递的时候，2,9,3,7,4,5,4,3,1
 
 
     // LNode* p = FindLoc(L, 0);

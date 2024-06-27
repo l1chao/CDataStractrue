@@ -8,26 +8,31 @@ typedef struct SqList {
     int length;
 } SqList;
 
-//删除有序顺序表所有重复元素。双指针方法
-bool DelDuplicate(SqList* L) {
-    if (L->length == 0) {
-        return false;
-    }
-
-    int i, j;
-    for (i = 0, j = 0;i < L->length;) { // 1,1,1,2,2,3,4,5,5,6
-        if (L->data[i] != L->data[j]) {
-            for (int k = i;k < L->length;k++) {
-                L->data[k - (i - 1 - j)] = L->data[k];
-            }
-            L->length -= (i - 1 - j);
-            j++;
-            i = j;
+//合并两个有序表
+bool Merge(SqList* a, SqList* b, SqList* new) {
+    int pa = 0, pb = 0, p = 0;
+    for (;pa < a->length && pb < b->length;) {
+        if (a->data[pa] <= b->data[pb]) {
+            new->data[p] = a->data[pa];
+            pa++;
+            p++;
         }
         else {
-            i++;
+            new->data[p] = b->data[pb];
+            pb++;
+            p++;
         }
     }
+
+    for (;pa < a->length;pa++, p++) {
+        new->data[p] = a->data[pa];
+    }
+
+    for (;pb < b->length;pb++, p++) {
+        new->data[p] = a->data[pa];
+    }
+
+    new->length = p;//这里是p，不是p+1，因为p在结束循环的时候，是指向下一个空位。
     return true;
 }
 

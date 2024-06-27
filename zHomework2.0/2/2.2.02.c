@@ -9,15 +9,19 @@ typedef struct SqList {
 } SqList;
 
 // 将顺序表L逆置，要求空间复杂度为O(1)
-void ReverseSeq(SqList* L) {
-    int mid = L->length / 2;
-    for (int i = 0;i <= mid;i++) {
+void Reverse(SqList* L) {
+    if (L->length == 0) {
+        return;
+    }
+    int head = 0;
+    int tail = L->length - 1;
+    int mid = (head + tail) / 2;
+
+    for (int i = head;i <= mid;i++) {
         int temp = L->data[i];
         L->data[i] = L->data[L->length - 1 - i];
         L->data[L->length - 1 - i] = temp;
     }
-
-    return;
 }
 
 int main() {

@@ -8,22 +8,40 @@ typedef struct SqList {
     int length;
 } SqList;
 
-//A[m+n]里面按顺序存储数列a(a1,a2...am)和数列b(b1,b2...bn)现在将a和b数列整体换位置。双倒序。
-void DoubleTraverse(SqList* l, int m, int n) {
-    Traverse(l, 0, m - 1);
-    Traverse(l, m, n + m - 1);
-    Traverse(l, 0, n + m - 1);
-}
-
-bool Traverse(SqList* l, int head, int end) {
-    if (head<0 || end >l->length - 1) {
+//最速找x，找到将x与后面一个元素互换；找不到则插入x。
+bool FindOrInsertX(SqList* L, int x) {
+    if (L->length == 0) {
         return false;
     }
-
-    int mid = (head + end) / 2; // 关于中点的问题。
-    for (int k = 0;k <= mid;k++) {
-        int temp = l->data[k];
-        l->data[k] = l->data[l->length - 1 - k];
-        l->data[l->length - 1 - k] = temp;
+    int loc;
+    if (FindX(L, x, 0, L->length - 1, &loc)) {
+        int temp = L->data[loc];
+        L->data[loc] = L->data[loc + 1];
+        L->data[loc + 1] = temp;
     }
+    else {
+        for (int i = loc;i < L->length;i++) {
+            L->data[i + 1] = L->data[i];
+            L->length++;
+            L->data[loc] = x;
+        }
+    }
+}
+
+//这里面最关键的还是二分查找的一个tips：如果没有找到，则head表示待查找元素应该在的位置
+bool FindX(SqList* L, int x, int head, int tail, int* loc) {
+    while (head <= tail) {
+        int mid = (head + tail) / 2;
+        if (L->data[mid] == x) {
+            *loc = mid;
+            return true;
+        }
+        else if (L->data[mid] > x) {
+            tail = mid - 1;
+        }
+        else head = mid + 1;
+    }
+
+    *loc = head;
+    return false;
 }
