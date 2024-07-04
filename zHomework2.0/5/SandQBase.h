@@ -1,6 +1,7 @@
-//Stack Queue所需要的基础操作。
+//树遍历所需要的指针Stack Queue所需要的基础操作。
 
 #include<iostream>
+#include"TreeBase.h"
 #define MAXSIZE 100
 using namespace std;
 
@@ -10,7 +11,7 @@ typedef struct {
 }Queue;
 
 typedef struct {
-    int data[MAXSIZE];
+    BiTNode* data[MAXSIZE];
     int top;
 }Stack;
 
@@ -32,27 +33,27 @@ bool StackFull(Stack* S) {
     return false;
 }
 
-bool Push(Stack* S, int val) {
+bool Push(Stack* S, BiTNode* node) {
     if (StackFull(S)) {
         return false;
     }
 
-    S->data[S->top] = val;
+    S->data[S->top] = node;
     S->top++;
     return true;
 }
 
-bool Pop(Stack* S, int* val) {
+bool Pop(Stack* S, BiTNode** node) {
     if (StackEmpty(S)) {
         return false;
     }
 
     S->top--;
-    *val = S->data[S->top];
+    *node = S->data[S->top];
     return true;
 }
 
-int Get(Stack* S) {
+BiTNode* Get(Stack* S) {
     return S->data[S->top - 1];
 }
 
