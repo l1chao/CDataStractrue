@@ -17,7 +17,7 @@ typedef struct {
 // 边/弧节点声明
 typedef struct ArcNode {
     int adjvex; //将要连到的顶点编号
-    struct ArcNode* next; //下一个顶点编号
+    struct ArcNode* nextarc; //下一个顶点编号
     //int Info; //边的权值
 }ArcNode;
 
