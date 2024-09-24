@@ -33,6 +33,18 @@ void Reverse1(LinkList L) {
         L->next = temp;
     }
 }
+//2024-9-24 09:40:36
+void Reverse2(LinkList L) {
+    if (L->next == NULL || L->next->next == NULL) return;
+
+    LNode* p = L->next;
+    while (p->next != NULL) {
+        LNode* temp = p->next;
+        p->next = temp->next;
+        temp->next = L->next;
+        L->next = temp;
+    }
+}
 
 LinkList TailInsert() {
     LNode* L = (LNode*)malloc(sizeof(LNode));
