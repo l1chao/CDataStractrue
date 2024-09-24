@@ -6,7 +6,7 @@ typedef struct LNode {
     struct LNode* next;
 }LNode, * LinkList;
 
-//就地保留公共元素
+//就地保留公共元素。保留a里面的公共元素。
 void RemainPub(LinkList a, LinkList b) {
     LNode* p = a;
     LNode* q = b;
@@ -26,7 +26,7 @@ void RemainPub(LinkList a, LinkList b) {
         }
     }
     // p->next = NULL;//内存泄漏
-    p = p->next;
+    // p = p->next;
     while (p != NULL) {
         LNode* temp = p;
         free(temp);
@@ -51,11 +51,21 @@ LinkList TailInsert(int a[], int length) {
     return L;
 }
 
+//有头节点
+void printLinkList(LinkList L) {
+    LNode* p = L->next;
+    for (;p != NULL;p = p->next) {
+        printf("%d ", p->val);
+    }
+}
+
 int main() {
     int a[5] = { 1,2,4,6,10 };
     int b[5] = { 2,4,6,7,8 };
     LNode* la = TailInsert(a, 5);
     LNode* lb = TailInsert(b, 5);
 
+    RemainPub(la, lb);
+    printLinkList(la);
 
 }

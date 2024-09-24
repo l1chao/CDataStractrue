@@ -22,3 +22,18 @@ void DelMin(LinkList L) {
     minNodepre->next = temp->next;
     free(temp);//要删除，基本上都要用到free，free必须要的变量
 }
+
+
+void DelMin(LinkList L) {
+    LNode* p = L->next;
+    LNode* minp = L;
+    for (;p->next != NULL;p = p->next) {
+        if (p->next->val < minp->next->val) {
+            minp = p;
+        }
+    }
+
+    LNode* temp = minp->next;
+    minp->next = temp->next;
+    free(temp);
+}

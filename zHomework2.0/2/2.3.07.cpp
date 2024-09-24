@@ -44,6 +44,21 @@ bool DelDipulate1(LinkList L) {
     }
 }
 
+bool DelDipulate(LinkList L) {
+    if (L->next == NULL) return false;
+
+    LNode* p = L->next;
+    while (p->next != NULL) {
+        if (p->next->val == p->val) {
+            LNode* temp = p->next;
+            p->next = temp->next;
+            free(temp);
+        }
+        else { p = p->next; }
+
+    }
+}
+
 LinkList TailInsert() {
     LNode* L = (LNode*)malloc(sizeof(LNode));
     L->next = NULL;
