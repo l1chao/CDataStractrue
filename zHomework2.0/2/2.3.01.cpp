@@ -21,6 +21,16 @@ void DelXs(LinkList L, int x) {
     }
 }
 
+//删除多个X
+void DelXs(LinkList L, int x) {
+    LNode* p = L;
+    while (p->next != NULL) {
+        if (p->next->val == x) {
+
+        }
+    }
+}
+
 //用尾插法构造出一个链表并返回。
 LinkList TailInsert() {
     LNode* L = (LNode*)malloc(sizeof(LNode));//有一个头结点

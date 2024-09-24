@@ -25,3 +25,19 @@ void Reverse(SqList* L, int head, int tail) {
         L->data[L->length - 1 - i] = temp;
     }
 }
+
+void ReversePartly(SqList* L, int head, int tail) {
+    int mid = (head + tail - 1) / 2;
+
+    for (int i = head; i <= mid;i++) {
+        int temp = L->data[i];
+        L->data[i] = L->data[L->length - 1 - i];
+        L->data[L->length - 1 - i] = temp;
+    }
+}
+
+void Reverse(SqList* L, int m, int n) {
+    ReversePartly(L, 0, m - 1);
+    ReversePartly(L, m, m + n - 1);
+    ReversePartly(L, 0, m + n - 1);
+}

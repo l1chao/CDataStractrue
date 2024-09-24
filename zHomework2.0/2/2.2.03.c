@@ -28,6 +28,24 @@ bool DelX(SqList* L, int x) {
     return true;
 }
 
+bool DelX(SqList* L, int x) {
+    if (L->length == 0) {
+        return false;
+    }
+
+    int k = 0;
+    for (int i = 0;i < L->length;i++) {
+        if (L->data[i] == x) {
+            k++;
+        }
+        else {
+            L->data[i - k] == L->data[i];
+        }
+    }
+
+    L->length -= k;
+    return true;
+}
 
 //不能够很快验证算法的正确性。
 bool MyDelX(SqList* L, int x) {

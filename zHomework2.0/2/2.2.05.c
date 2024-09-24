@@ -26,6 +26,20 @@ bool DelDuplicate(SqList* L) {
     return true;
 }
 
+bool repeat1(SqList* L) {
+    if (L->length == 0) return false;
+    int i, j;
+    for (j = 0, i = 1;i < L->length;i++) {
+        if (L->data[i] != L->data[j]) {
+            j++;
+            L->data[j] = L->data[i];
+        }
+    }
+    L->length = j + 1;
+    return true;
+}
+
+
 int main() {
     SqList L;
 

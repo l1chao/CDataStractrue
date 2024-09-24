@@ -36,6 +36,22 @@ bool Merge(SqList* a, SqList* b, SqList* new) {
     return true;
 }
 
+bool repeat1(SqList* a, SqList* b, SqList* new) {
+    if (a->length + b->length > new->length) return false;
+
+    int pa = 0, pb = 0, p = 0;
+    while (pa < a->length && pb < b->length) {
+        if (a->data[pa] <= b->data[pb])
+            new->data[p++] = a->data[pa++];
+        else
+            new->data[p++] = b->data[pb++];
+    }
+
+    while (pa < a->length) new->data[p++] = a->data[pa++];
+    while (pb < b->length) new->data[p++] = b->data[pb++];
+    return true;
+}
+
 int main() {
     SqList L;
     L.length = 10;

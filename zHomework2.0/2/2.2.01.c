@@ -28,3 +28,21 @@ bool DeleteMin(SqList* L, int* e) {
 
     return true;
 }
+
+bool DeleteMin(SqList* L, int* e) {
+    if (L->length == 0) {
+        return false;
+    }
+    int loc = 0;
+    for (int i = 1;i < L->length;i++) {
+        if (L->data[i] < L->data[loc]) {
+            loc = i;
+        }
+    }
+
+    *e = L->data[loc];
+    L->data[loc] = L->data[L->length - 1];
+    L->length--;
+
+    return true;
+}

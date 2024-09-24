@@ -42,6 +42,19 @@ void StdAsw(int a[], int b[], int c[], int n) {
     }
 }
 
+void StdAns(int a[], int b[], int c[], int n) {
+    int pa = 0, pb = 0, pc = 0;
+    while (pa < n && pb < n && pc < n) {
+        if (a[pa] == b[pb] && b[pb] == c[pc]) {
+            printf("%d\n", a[pa]);
+            pa++;pb++;pc++;
+        }
+        else if (a[pa] < b[pb] && a[pa] < c[pc])pa++;
+        else if (b[pb] < a[pa] && b[pb] < c[pc])pb++;
+        else pc++;
+    }
+}
+
 int main() {
 
 
